@@ -91,33 +91,37 @@ function LocalOffer() {
 
   return (
     <Layout>
-      <section className="max-w-4xl mx-auto px-6 pt-12 pb-6 text-center">
-        <p className="display text-2xl md:text-3xl text-accent tracking-wide mb-6">
-          Attention:
-          <br />
-          <span className="text-white">⚡ Ottawa &amp; Kingston Service Business Owners ⚡</span>
+      <section className="max-w-5xl mx-auto px-6 pt-8 md:pt-10 pb-2 text-center">
+        <p className="display text-xl md:text-2xl text-accent tracking-wide">
+          Attention: <span className="text-white">⚡ Ottawa &amp; Kingston Service Business Owners ⚡</span>
         </p>
-        <h1 className="display text-5xl md:text-7xl lg:text-8xl leading-[0.9]">
+      </section>
+
+      <section className="max-w-5xl mx-auto px-6 pt-4 pb-6 text-center">
+        <h1 className="display text-3xl md:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
           We'll Install Our
           <br />
-          <span className="text-accent">One Day Content System</span>
+          <span className="text-accent">Content Conversion Framework</span>
           <br />
           In Your Business In Just
           <br />
           <span className="text-accent">7 Days</span>
         </h1>
-        <p className="mt-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-light">
+        <p className="mt-6 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto font-light">
           So you can stop relying on word of mouth and start building predictable, scalable leads.
         </p>
       </section>
 
-      <section className="max-w-4xl mx-auto px-6 py-8">
-        <VideoEmbed youtubeId="J5VJcsS8pL0" title="VSL" />
+      <section className="max-w-4xl mx-auto px-6 py-6">
+        <VideoEmbed youtubeId="J5VJcsS8pL0" title="VSL" autoplay />
       </section>
 
-      <section className="max-w-4xl mx-auto px-6 py-6 text-center">
+      <section className="max-w-4xl mx-auto px-6 pt-4 pb-2 text-center">
         <p className="display text-accent text-2xl md:text-3xl">
           👇 Fill Out The Application Below 👇
+        </p>
+        <p className="mt-3 display text-white text-lg md:text-xl tracking-wide">
+          Only For Service Businesses Who Can Handle More Clients
         </p>
       </section>
 
