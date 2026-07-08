@@ -1,4 +1,3 @@
-import { Link } from "@tanstack/react-router";
 import { type ReactNode, useEffect } from "react";
 import logoAsset from "@/assets/dti-logo.png.asset.json";
 
@@ -29,29 +28,34 @@ export function usePixel(events: Array<[string, string?]> = [["PageView"]]) {
 export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
-      <header className="border-b border-border/60">
-        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-center">
-          <Link to="/local-offer" className="flex items-center gap-3">
-            <img src={logoAsset.url} alt="DTI Media" className="h-10 w-auto" />
-          </Link>
-        </div>
-      </header>
       <main className="flex-1">{children}</main>
-      <footer className="border-t border-border/60 mt-16">
-        <div className="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-muted-foreground tracking-wide">
-          © DTI Media 2026
+      <footer className="mt-16">
+        <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col items-center gap-4">
+          <img src={logoAsset.url} alt="DTI Media" className="h-14 w-auto opacity-90" />
+          <div className="text-center text-sm text-muted-foreground tracking-wide">
+            © DTI Media 2026
+          </div>
         </div>
       </footer>
     </div>
   );
 }
 
-export function VideoEmbed({ youtubeId, title }: { youtubeId?: string; title?: string }) {
+export function VideoEmbed({
+  youtubeId,
+  title,
+  autoplay = false,
+}: {
+  youtubeId?: string;
+  title?: string;
+  autoplay?: boolean;
+}) {
+  const params = autoplay ? "?autoplay=1&mute=1&playsinline=1&rel=0" : "?rel=0";
   return (
     <div className="relative w-full aspect-video rounded-lg overflow-hidden gold-border bg-black">
       {youtubeId ? (
         <iframe
-          src={`https://www.youtube.com/embed/${youtubeId}`}
+          src={`https://www.youtube.com/embed/${youtubeId}${params}`}
           title={title || "video"}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
