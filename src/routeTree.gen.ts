@@ -9,8 +9,32 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as NotAFitRouteImport } from './routes/not-a-fit'
+import { Route as LocalOfferRouteImport } from './routes/local-offer'
+import { Route as ConfirmYourCallRouteImport } from './routes/confirm-your-call'
+import { Route as BookYourCallRouteImport } from './routes/book-your-call'
 import { Route as IndexRouteImport } from './routes/index'
 
+const NotAFitRoute = NotAFitRouteImport.update({
+  id: '/not-a-fit',
+  path: '/not-a-fit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocalOfferRoute = LocalOfferRouteImport.update({
+  id: '/local-offer',
+  path: '/local-offer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfirmYourCallRoute = ConfirmYourCallRouteImport.update({
+  id: '/confirm-your-call',
+  path: '/confirm-your-call',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookYourCallRoute = BookYourCallRouteImport.update({
+  id: '/book-your-call',
+  path: '/book-your-call',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +43,88 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/book-your-call': typeof BookYourCallRoute
+  '/confirm-your-call': typeof ConfirmYourCallRoute
+  '/local-offer': typeof LocalOfferRoute
+  '/not-a-fit': typeof NotAFitRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/book-your-call': typeof BookYourCallRoute
+  '/confirm-your-call': typeof ConfirmYourCallRoute
+  '/local-offer': typeof LocalOfferRoute
+  '/not-a-fit': typeof NotAFitRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/book-your-call': typeof BookYourCallRoute
+  '/confirm-your-call': typeof ConfirmYourCallRoute
+  '/local-offer': typeof LocalOfferRoute
+  '/not-a-fit': typeof NotAFitRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/book-your-call'
+    | '/confirm-your-call'
+    | '/local-offer'
+    | '/not-a-fit'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/book-your-call'
+    | '/confirm-your-call'
+    | '/local-offer'
+    | '/not-a-fit'
+  id:
+    | '__root__'
+    | '/'
+    | '/book-your-call'
+    | '/confirm-your-call'
+    | '/local-offer'
+    | '/not-a-fit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookYourCallRoute: typeof BookYourCallRoute
+  ConfirmYourCallRoute: typeof ConfirmYourCallRoute
+  LocalOfferRoute: typeof LocalOfferRoute
+  NotAFitRoute: typeof NotAFitRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/not-a-fit': {
+      id: '/not-a-fit'
+      path: '/not-a-fit'
+      fullPath: '/not-a-fit'
+      preLoaderRoute: typeof NotAFitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/local-offer': {
+      id: '/local-offer'
+      path: '/local-offer'
+      fullPath: '/local-offer'
+      preLoaderRoute: typeof LocalOfferRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confirm-your-call': {
+      id: '/confirm-your-call'
+      path: '/confirm-your-call'
+      fullPath: '/confirm-your-call'
+      preLoaderRoute: typeof ConfirmYourCallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-your-call': {
+      id: '/book-your-call'
+      path: '/book-your-call'
+      fullPath: '/book-your-call'
+      preLoaderRoute: typeof BookYourCallRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +137,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookYourCallRoute: BookYourCallRoute,
+  ConfirmYourCallRoute: ConfirmYourCallRoute,
+  LocalOfferRoute: LocalOfferRoute,
+  NotAFitRoute: NotAFitRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
