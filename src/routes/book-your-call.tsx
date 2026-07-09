@@ -57,6 +57,17 @@ function BookYourCall() {
             style={{ minWidth: "320px", height: "700px" }}
           />
         </div>
+        <div className="mt-8 text-center">
+          <Link
+            to="/confirm-your-call"
+            className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-display font-extrabold uppercase tracking-wide text-lg rounded hover:bg-accent/90 transition"
+          >
+            I've Booked My Call — Continue
+          </Link>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Click this after you have selected a time in the calendar above.
+          </p>
+        </div>
       </section>
 
       <section className="max-w-4xl mx-auto px-6 py-12">
