@@ -53,7 +53,7 @@ function BookYourCall() {
         <div className="rounded-lg overflow-hidden gold-border bg-card">
           <div
             className="calendly-inline-widget"
-            data-url="https://calendly.com/lukas-dti-media/1-on-1-call?background_color=0a0a0a&text_color=ffffff&primary_color=c9a84c"
+            data-url={CALENDLY_URL}
             style={{ minWidth: "320px", height: "700px" }}
           />
         </div>
