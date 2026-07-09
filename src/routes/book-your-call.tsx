@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { Layout, VideoEmbed, usePixel } from "@/components/Layout";
 
@@ -56,6 +56,17 @@ function BookYourCall() {
             data-url={CALENDLY_URL}
             style={{ minWidth: "320px", height: "700px" }}
           />
+        </div>
+        <div className="mt-8 text-center">
+          <Link
+            to="/confirm-your-call"
+            className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-display font-extrabold uppercase tracking-wide text-lg rounded hover:bg-accent/90 transition"
+          >
+            I've Booked My Call — Continue
+          </Link>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Click this after you have selected a time in the calendar above.
+          </p>
         </div>
       </section>
 
