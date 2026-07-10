@@ -79,7 +79,7 @@ function ConfirmYourCall() {
         <h2 className="display text-2xl md:text-3xl text-center mb-6">
           👇 Step 1: Watch This 1 Minute Video Below
         </h2>
-        <VideoEmbed />
+        <VideoEmbed youtubeId={WELCOME_VIDEO_ID} title="Welcome video" />
       </section>
 
       <section className="max-w-6xl mx-auto px-6 py-12">
@@ -88,9 +88,9 @@ function ConfirmYourCall() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {QUESTIONS.map((q) => (
-            <div key={q} className="space-y-3">
-              <p className="display text-lg text-accent min-h-[3rem]">{q}</p>
-              <VideoEmbed />
+            <div key={q.question} className="space-y-3">
+              <p className="display text-lg text-accent min-h-[3rem]">{q.question}</p>
+              <VideoEmbed youtubeId={q.videoId} title={q.question} />
             </div>
           ))}
         </div>
