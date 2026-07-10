@@ -30,7 +30,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="flex-1">{children}</main>
       <footer className="mt-16">
         <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col items-center gap-4">
-          <img src="/dti-logo.png" alt="DTI Media" className="h-14 w-auto opacity-90" />
+          <img src="/dti-logo.png" alt="DTI Media" className="h-32 w-auto opacity-90" />
           <div className="text-center text-sm text-muted-foreground tracking-wide">
             © DTI Media 2026
           </div>
