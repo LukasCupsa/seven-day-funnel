@@ -6,13 +6,33 @@ export const Route = createFileRoute("/confirm-your-call")({
   component: ConfirmYourCall,
 });
 
+const WELCOME_VIDEO_ID = "ELdp3eWmxjA";
+
 const QUESTIONS = [
-  "What kind of businesses do you work with?",
-  "What's the investment to get started?",
-  "How much of my time does this take?",
-  "How are you different from other agencies?",
-  "What exactly do I get each month?",
-  "How fast can I see results?",
+  {
+    question: "What kind of businesses do you work with?",
+    videoId: "qTAFQIVhp8o",
+  },
+  {
+    question: "What's the investment to get started?",
+    videoId: "nDfo18pohvo",
+  },
+  {
+    question: "How much of my time does this take?",
+    videoId: "2dgu_Vmtgdo",
+  },
+  {
+    question: "How are you different from other agencies?",
+    videoId: "NwUvnV0o-yo",
+  },
+  {
+    question: "What exactly do I get each month?",
+    videoId: "Ymw4B_lKHUk",
+  },
+  {
+    question: "How fast can I see results?",
+    videoId: "IUrSkbPx4LM",
+  },
 ];
 
 const FAQ = [
@@ -59,7 +79,7 @@ function ConfirmYourCall() {
         <h2 className="display text-2xl md:text-3xl text-center mb-6">
           👇 Step 1: Watch This 1 Minute Video Below
         </h2>
-        <VideoEmbed />
+        <VideoEmbed youtubeId={WELCOME_VIDEO_ID} title="Welcome video" />
       </section>
 
       <section className="max-w-6xl mx-auto px-6 py-12">
@@ -68,9 +88,9 @@ function ConfirmYourCall() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {QUESTIONS.map((q) => (
-            <div key={q} className="space-y-3">
-              <p className="display text-lg text-accent min-h-[3rem]">{q}</p>
-              <VideoEmbed />
+            <div key={q.question} className="space-y-3">
+              <p className="display text-lg text-accent min-h-[3rem]">{q.question}</p>
+              <VideoEmbed youtubeId={q.videoId} title={q.question} />
             </div>
           ))}
         </div>
