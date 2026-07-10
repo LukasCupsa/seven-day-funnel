@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Layout, VideoEmbed, usePixel } from "@/components/Layout";
 
 // Swap this to your published domain when you go live
-const REDIRECT_URL = "https://id-preview--bf6690a4-8f11-4bb1-83d3-1061130d5f1c.lovable.app/confirm-your-call";
+const REDIRECT_URL = "https://apply.dti-media.com/confirm-your-call";
 
 const CALENDLY_URL = `https://calendly.com/lukas-dti-media/1-on-1-call?background_color=0a0a0a&text_color=ffffff&primary_color=c9a84c&redirect_url=${encodeURIComponent(REDIRECT_URL)}`;
 
