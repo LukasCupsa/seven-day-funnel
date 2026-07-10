@@ -6,13 +6,33 @@ export const Route = createFileRoute("/confirm-your-call")({
   component: ConfirmYourCall,
 });
 
+const WELCOME_VIDEO_ID = "ELdp3eWmxjA";
+
 const QUESTIONS = [
-  "What kind of businesses do you work with?",
-  "What's the investment to get started?",
-  "How much of my time does this take?",
-  "How are you different from other agencies?",
-  "What exactly do I get each month?",
-  "How fast can I see results?",
+  {
+    question: "What kind of businesses do you work with?",
+    videoId: "qTAFQIVhp8o",
+  },
+  {
+    question: "What's the investment to get started?",
+    videoId: "nDfo18pohvo",
+  },
+  {
+    question: "How much of my time does this take?",
+    videoId: "2dgu_Vmtgdo",
+  },
+  {
+    question: "How are you different from other agencies?",
+    videoId: "NwUvnV0o-yo",
+  },
+  {
+    question: "What exactly do I get each month?",
+    videoId: "Ymw4B_lKHUk",
+  },
+  {
+    question: "How fast can I see results?",
+    videoId: "IUrSkbPx4LM",
+  },
 ];
 
 const FAQ = [
