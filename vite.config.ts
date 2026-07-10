@@ -12,4 +12,10 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Deploy target: Netlify (overrides the default cloudflare-module preset).
+  // NOTE: Inside Lovable's hosted build the preset is force-pinned to Cloudflare;
+  // this override only takes effect when you build in your own CI (e.g. Netlify).
+  nitro: {
+    preset: "netlify",
+  },
 });
