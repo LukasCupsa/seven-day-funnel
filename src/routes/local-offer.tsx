@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Layout, VideoEmbed, usePixel } from "@/components/Layout";
+import { Layout, WistiaEmbed, usePixel, trackEvent } from "@/components/Layout";
 
 export const Route = createFileRoute("/local-offer")({
   component: LocalOffer,
@@ -8,39 +8,15 @@ export const Route = createFileRoute("/local-offer")({
 
 const ZAPIER = "https://hooks.zapier.com/hooks/catch/25849437/43chkoo/";
 
-const BUSINESS_TYPES = [
-  "Med Spa / Aesthetic Clinic",
-  "Real Estate Agent or Team",
-  "Home Builder / Contractor",
-  "Landscaping / Outdoor Living",
-  "Pool / Sauna / Hot Tub Company",
-  "Interior Design",
-  "Dental Practice",
-  "Auto Detailing",
-  "Painting Company",
-  "Home Staging",
-  "Other Local Service Business",
-];
+// Landing page VSL (Wistia). Using the "Post booking" welcome video as the primary VSL.
+const VSL_MEDIA_ID = "ho7751j1zf";
 
-const REVENUE = [
-  { label: "Under $5K/month", value: "under_5k", disqualify: true },
-  { label: "$5K–$10K/month", value: "5_10k" },
-  { label: "$10K–$25K/month", value: "10_25k" },
-  { label: "$25K–$50K/month", value: "25_50k" },
-  { label: "$50K+/month", value: "50k_plus" },
-];
-
-const ON_CAMERA = [
-  { label: "Yes — comfortable", value: "yes_comfortable" },
-  { label: "Yes — not experienced but willing", value: "yes_willing" },
-  { label: "No", value: "no", disqualify: true },
-];
-
-const LOCATION = [
-  { label: "Ottawa, Ontario", value: "ottawa" },
-  { label: "Kingston, Ontario", value: "kingston" },
-  { label: "Within 1hr of Ottawa or Kingston", value: "within_1hr" },
-  { label: "Outside area", value: "outside", disqualify: true },
+const YEARS = [
+  "Less than 1 year",
+  "1–2 years",
+  "3–5 years",
+  "5–10 years",
+  "10+ years",
 ];
 
 function LocalOffer() {
@@ -52,11 +28,9 @@ function LocalOffer() {
     last_name: "",
     email: "",
     phone: "",
-    business_type: "",
-    revenue: "",
+    website: "",
+    years_in_business: "",
     challenge: "",
-    on_camera: "",
-    location: "",
   });
 
   const update = (k: string, v: string) => setForm((f) => ({ ...f, [k]: v }));
@@ -65,10 +39,20 @@ function LocalOffer() {
     e.preventDefault();
     if (submitting) return;
     setSubmitting(true);
-    const rev = REVENUE.find((r) => r.value === form.revenue);
-    const cam = ON_CAMERA.find((r) => r.value === form.on_camera);
-    const loc = LOCATION.find((r) => r.value === form.location);
-    const disqualified = !!(rev?.disqualify || cam?.disqualify || loc?.disqualify);
+
+    // Fire Meta Lead event (pixel + CAPI, deduped)
+    trackEvent({
+      event_name: "Lead",
+      email: form.email,
+      phone: form.phone,
+      first_name: form.first_name,
+      last_name: form.last_name,
+      custom_data: {
+        website: form.website,
+        years_in_business: form.years_in_business,
+      },
+    });
+
     try {
       await fetch(ZAPIER, {
         method: "POST",
@@ -76,14 +60,14 @@ function LocalOffer() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
-          qualified: !disqualified,
+          qualified: true,
           submitted_at: new Date().toISOString(),
         }),
       });
     } catch {
       /* ignore */
     }
-    navigate({ to: disqualified ? "/not-a-fit" : "/book-your-call" });
+    navigate({ to: "/book-your-call" });
   };
 
   const inputCls =
@@ -93,19 +77,17 @@ function LocalOffer() {
     <Layout>
       <section className="max-w-5xl mx-auto px-6 pt-8 md:pt-10 pb-2 text-center">
         <p className="display text-xl md:text-2xl text-accent tracking-wide">
-          Attention: <span className="text-white">⚡ Ottawa &amp; Kingston Service Business Owners ⚡</span>
+          Attention: <span className="text-white">⚡ Local Service Business Owners ⚡</span>
         </p>
       </section>
 
       <section className="max-w-5xl mx-auto px-6 pt-4 pb-6 text-center">
         <h1 className="display text-3xl md:text-5xl lg:text-6xl leading-[1.02] tracking-tight">
-          We'll Install Our
+          We Film{" "}
+          <span className="text-accent">3 Months Of Content</span>
           <br />
-          <span className="text-accent">Content Conversion Framework</span>
-          <br />
-          In Your Business In Just
-          <br />
-          <span className="text-accent">7 Days</span>
+          For Your Business In{" "}
+          <span className="text-accent">1 Day</span>
         </h1>
         <p className="mt-6 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto font-light">
           So you can stop relying on word of mouth and start building predictable, scalable leads.
@@ -113,7 +95,7 @@ function LocalOffer() {
       </section>
 
       <section className="max-w-4xl mx-auto px-6 py-6">
-        <VideoEmbed youtubeId="J5VJcsS8pL0" title="VSL" autoplay />
+        <WistiaEmbed mediaId={VSL_MEDIA_ID} title="VSL" />
       </section>
 
       <section className="max-w-4xl mx-auto px-6 pt-4 pb-2 text-center">
@@ -121,7 +103,7 @@ function LocalOffer() {
           👇 Fill Out The Application Below 👇
         </p>
         <p className="mt-3 display text-white text-lg md:text-xl tracking-wide">
-          Only For Service Businesses Who Can Handle More Clients
+          Only For Local Service Businesses Ready To Grow
         </p>
       </section>
 
@@ -134,27 +116,28 @@ function LocalOffer() {
           <input required type="email" placeholder="Email *" className={inputCls} value={form.email} onChange={(e) => update("email", e.target.value)} />
           <input type="tel" placeholder="Phone" className={inputCls} value={form.phone} onChange={(e) => update("phone", e.target.value)} />
 
-          <select required className={inputCls} value={form.business_type} onChange={(e) => update("business_type", e.target.value)}>
-            <option value="">Business Type *</option>
-            {BUSINESS_TYPES.map((b) => <option key={b} value={b}>{b}</option>)}
+          <input
+            required
+            type="url"
+            placeholder="Website (e.g. https://yourbusiness.com) *"
+            className={inputCls}
+            value={form.website}
+            onChange={(e) => update("website", e.target.value)}
+          />
+
+          <select required className={inputCls} value={form.years_in_business} onChange={(e) => update("years_in_business", e.target.value)}>
+            <option value="">How long have you been in business? *</option>
+            {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
           </select>
 
-          <select required className={inputCls} value={form.revenue} onChange={(e) => update("revenue", e.target.value)}>
-            <option value="">Monthly Revenue *</option>
-            {REVENUE.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
-          </select>
-
-          <textarea required rows={4} placeholder="Tell us what's not working right now..." className={inputCls} value={form.challenge} onChange={(e) => update("challenge", e.target.value)} />
-
-          <select required className={inputCls} value={form.on_camera} onChange={(e) => update("on_camera", e.target.value)}>
-            <option value="">Willing to be on camera? *</option>
-            {ON_CAMERA.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
-          </select>
-
-          <select required className={inputCls} value={form.location} onChange={(e) => update("location", e.target.value)}>
-            <option value="">Location *</option>
-            {LOCATION.map((r) => <option key={r.value} value={r.value}>{r.label}</option>)}
-          </select>
+          <textarea
+            required
+            rows={4}
+            placeholder="Tell us what you've tried and what's not working... *"
+            className={inputCls}
+            value={form.challenge}
+            onChange={(e) => update("challenge", e.target.value)}
+          />
 
           <button
             type="submit"

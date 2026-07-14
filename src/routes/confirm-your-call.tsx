@@ -1,38 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Layout, VideoEmbed, usePixel } from "@/components/Layout";
+import { Layout, WistiaEmbed, usePixel } from "@/components/Layout";
 
 export const Route = createFileRoute("/confirm-your-call")({
   component: ConfirmYourCall,
 });
 
-const WELCOME_VIDEO_ID = "ELdp3eWmxjA";
+const WELCOME_MEDIA_ID = "ho7751j1zf"; // Post booking / welcome
 
-const QUESTIONS = [
-  {
-    question: "What kind of businesses do you work with?",
-    videoId: "qTAFQIVhp8o",
-  },
-  {
-    question: "What's the investment to get started?",
-    videoId: "nDfo18pohvo",
-  },
-  {
-    question: "How much of my time does this take?",
-    videoId: "2dgu_Vmtgdo",
-  },
-  {
-    question: "How are you different from other agencies?",
-    videoId: "NwUvnV0o-yo",
-  },
-  {
-    question: "What exactly do I get each month?",
-    videoId: "Ymw4B_lKHUk",
-  },
-  {
-    question: "How fast can I see results?",
-    videoId: "IUrSkbPx4LM",
-  },
+const QUESTIONS: { question: string; mediaId: string }[] = [
+  { question: "What kind of businesses do you work with?", mediaId: "cibos1nlpb" },
+  { question: "What's the investment to get started?", mediaId: "e1gys31dsh" },
+  { question: "How much of my time does this take?", mediaId: "his3bz1ecu" },
+  { question: "How are you different from other agencies?", mediaId: "bparxu26o6" },
+  { question: "What exactly do I get each month?", mediaId: "4daqn6lada" },
+  { question: "How fast can I see results?", mediaId: "47637a2gtn" },
 ];
 
 const FAQ = [
@@ -51,10 +33,6 @@ const FAQ = [
   {
     q: "Do I own the content you create?",
     a: "Yes — everything we create is yours. Videos, edits, ad creatives. You keep it all.",
-  },
-  {
-    q: "Do you work with businesses outside Ottawa and Kingston?",
-    a: "Our current focus is Ottawa and Kingston. If you're nearby reach out directly and we can discuss.",
   },
   {
     q: "I already have some content — can you use what I've got?",
@@ -79,7 +57,7 @@ function ConfirmYourCall() {
         <h2 className="display text-2xl md:text-3xl text-center mb-6">
           👇 Step 1: Watch This 1 Minute Video Below
         </h2>
-        <VideoEmbed youtubeId={WELCOME_VIDEO_ID} title="Welcome video" />
+        <WistiaEmbed mediaId={WELCOME_MEDIA_ID} title="Welcome video" />
       </section>
 
       <section className="max-w-6xl mx-auto px-6 py-12">
@@ -90,7 +68,7 @@ function ConfirmYourCall() {
           {QUESTIONS.map((q) => (
             <div key={q.question} className="space-y-3">
               <p className="display text-lg text-accent min-h-[3rem]">{q.question}</p>
-              <VideoEmbed youtubeId={q.videoId} title={q.question} />
+              <WistiaEmbed mediaId={q.mediaId} title={q.question} />
             </div>
           ))}
         </div>
