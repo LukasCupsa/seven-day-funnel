@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Layout, VideoEmbed, usePixel } from "@/components/Layout";
+import { Layout, VideoEmbed, usePixel, trackEvent } from "@/components/Layout";
 
 // Swap this to your published domain when you go live
 const REDIRECT_URL = "https://apply.dti-media.com/confirm-your-call";
@@ -19,7 +19,7 @@ const BULLETS = [
 ];
 
 function BookYourCall() {
-  usePixel([["PageView"], ["Lead"]]);
+  usePixel();
 
   useEffect(() => {
     const s = document.createElement("script");
@@ -60,6 +60,7 @@ function BookYourCall() {
         <div className="mt-8 text-center">
           <Link
             to="/confirm-your-call"
+            onClick={() => trackEvent({ event_name: "Schedule" })}
             className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-display font-extrabold uppercase tracking-wide text-lg rounded hover:bg-accent/90 transition"
           >
             I've Booked My Call — Continue
