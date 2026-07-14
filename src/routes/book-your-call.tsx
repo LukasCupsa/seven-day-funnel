@@ -19,7 +19,7 @@ const BULLETS = [
 ];
 
 function BookYourCall() {
-  usePixel([["PageView"], ["Lead"]]);
+  usePixel();
 
   useEffect(() => {
     const s = document.createElement("script");
