@@ -60,6 +60,7 @@ function BookYourCall() {
         <div className="mt-8 text-center">
           <Link
             to="/confirm-your-call"
+            onClick={() => trackEvent({ event_name: "Schedule" })}
             className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-display font-extrabold uppercase tracking-wide text-lg rounded hover:bg-accent/90 transition"
           >
             I've Booked My Call — Continue
