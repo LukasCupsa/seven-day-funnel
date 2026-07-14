@@ -9,7 +9,7 @@ export const Route = createFileRoute("/local-offer")({
 const ZAPIER = "https://hooks.zapier.com/hooks/catch/25849437/43chkoo/";
 
 // Landing page VSL (Wistia). Using the "Post booking" welcome video as the primary VSL.
-const VSL_MEDIA_ID = "ho7751j1zf";
+const VSL_MEDIA_ID = "vaewr1pvdm";
 
 const YEARS = [
   "Less than 1 year",
