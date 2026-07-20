@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Layout, WistiaEmbed, usePixel } from "@/components/Layout";
+import { useEffect, useState } from "react";
+import { Layout, WistiaEmbed, usePixel, trackEvent } from "@/components/Layout";
 
 export const Route = createFileRoute("/confirm-your-call")({
   component: ConfirmYourCall,
