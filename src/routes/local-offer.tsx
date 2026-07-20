@@ -119,8 +119,7 @@ function LocalOffer() {
           <input
             required
             type="text"
-            inputMode="url"
-            placeholder="Website (e.g. yourbusiness.com) *"
+            placeholder="Website (e.g. dti-media.com) *"
             className={inputCls}
             value={form.website}
             onChange={(e) => update("website", e.target.value)}
