@@ -44,6 +44,12 @@ function ConfirmYourCall() {
   usePixel();
   const [open, setOpen] = useState<number | null>(0);
 
+  // User lands here only after Calendly confirms a booking → fire Schedule (Pixel + CAPI).
+  useEffect(() => {
+    trackEvent({ event_name: "Schedule" });
+  }, []);
+
+
   return (
     <Layout>
       <section className="max-w-4xl mx-auto px-6 pt-12 text-center">
