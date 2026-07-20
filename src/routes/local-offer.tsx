@@ -40,8 +40,8 @@ function LocalOffer() {
     if (submitting) return;
     setSubmitting(true);
 
-    // Fire Meta Lead event (pixel + CAPI, deduped)
-    trackEvent({
+    // Fire Meta Lead event (pixel + CAPI, deduped). Await so CAPI is in flight before nav.
+    await trackEvent({
       event_name: "Lead",
       email: form.email,
       phone: form.phone,
