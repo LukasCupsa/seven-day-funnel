@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Layout, WistiaEmbed, usePixel } from "@/components/Layout";
+import { useEffect, useState } from "react";
+import { Layout, WistiaEmbed, usePixel, trackEvent } from "@/components/Layout";
 
 export const Route = createFileRoute("/confirm-your-call")({
   component: ConfirmYourCall,
@@ -43,6 +43,12 @@ const FAQ = [
 function ConfirmYourCall() {
   usePixel();
   const [open, setOpen] = useState<number | null>(0);
+
+  // User lands here only after Calendly confirms a booking → fire Schedule (Pixel + CAPI).
+  useEffect(() => {
+    trackEvent({ event_name: "Schedule" });
+  }, []);
+
 
   return (
     <Layout>
