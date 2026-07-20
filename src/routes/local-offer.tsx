@@ -108,7 +108,7 @@ function LocalOffer() {
       </section>
 
       <section className="max-w-2xl mx-auto px-6 pb-16">
-        <form onSubmit={onSubmit} className="space-y-4 bg-card p-6 md:p-8 rounded-lg border border-border">
+        <form onSubmit={onSubmit} noValidate className="space-y-4 bg-card p-6 md:p-8 rounded-lg border border-border">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input required placeholder="First Name *" className={inputCls} value={form.first_name} onChange={(e) => update("first_name", e.target.value)} />
             <input required placeholder="Last Name *" className={inputCls} value={form.last_name} onChange={(e) => update("last_name", e.target.value)} />

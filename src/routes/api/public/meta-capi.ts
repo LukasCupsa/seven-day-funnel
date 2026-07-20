@@ -52,7 +52,7 @@ export const Route = createFileRoute("/api/public/meta-capi")({
         };
         Object.keys(user_data).forEach((k) => user_data[k] === undefined && delete user_data[k]);
 
-        const payload = {
+        const payload: Record<string, unknown> = {
           data: [
             {
               event_name: body.event_name,
@@ -65,6 +65,8 @@ export const Route = createFileRoute("/api/public/meta-capi")({
             },
           ],
         };
+        const testCode = process.env.META_TEST_EVENT_CODE;
+        if (testCode) payload.test_event_code = testCode;
 
         const res = await fetch(
           `https://graph.facebook.com/v20.0/${pixelId}/events?access_token=${token}`,
