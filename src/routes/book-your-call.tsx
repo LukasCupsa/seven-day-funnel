@@ -22,6 +22,7 @@ function BookYourCall() {
   usePixel();
 
   useEffect(() => {
+    sessionStorage.setItem("dti_reached_booking", "1");
     const s = document.createElement("script");
     s.src = "https://assets.calendly.com/assets/external/widget.js";
     s.async = true;
