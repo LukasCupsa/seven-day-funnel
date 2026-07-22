@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Layout, VideoEmbed, usePixel, trackEvent } from "@/components/Layout";
+import { Layout, VideoEmbed, usePixel } from "@/components/Layout";
 
 // Swap this to your published domain when you go live
 const REDIRECT_URL = "https://apply.dti-media.com/confirm-your-call";
@@ -22,6 +22,7 @@ function BookYourCall() {
   usePixel();
 
   useEffect(() => {
+    sessionStorage.setItem("dti_reached_booking", "1");
     const s = document.createElement("script");
     s.src = "https://assets.calendly.com/assets/external/widget.js";
     s.async = true;
@@ -60,7 +61,6 @@ function BookYourCall() {
         <div className="mt-8 text-center">
           <Link
             to="/confirm-your-call"
-            onClick={() => trackEvent({ event_name: "Schedule" })}
             className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-display font-extrabold uppercase tracking-wide text-lg rounded hover:bg-accent/90 transition"
           >
             I've Booked My Call — Continue

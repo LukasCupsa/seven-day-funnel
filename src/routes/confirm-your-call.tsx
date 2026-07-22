@@ -44,9 +44,38 @@ function ConfirmYourCall() {
   usePixel();
   const [open, setOpen] = useState<number | null>(0);
 
-  // User lands here only after Calendly confirms a booking → fire Schedule (Pixel + CAPI).
+  // Only fire conversions for real bookings: user must have passed through /book-your-call,
+  // and we only fire once per session.
   useEffect(() => {
-    trackEvent({ event_name: "Schedule" });
+    if (typeof window === "undefined") return;
+    const reached = sessionStorage.getItem("dti_reached_booking");
+    if (!reached) return;
+    if (sessionStorage.getItem("dti_lead_fired")) return;
+
+    let data: any = {};
+    try {
+      data = JSON.parse(sessionStorage.getItem("dti_lead_data") || "{}");
+    } catch {
+      data = {};
+    }
+
+    const payload = {
+      email: data.email,
+      phone: data.phone,
+      first_name: data.first_name,
+      last_name: data.last_name,
+      custom_data: {
+        website: data.website,
+        years_in_business: data.years_in_business,
+      },
+    } as const;
+
+    trackEvent({ event_name: "Lead", ...payload });
+    trackEvent({ event_name: "Schedule", ...payload });
+
+    sessionStorage.setItem("dti_lead_fired", "1");
+    sessionStorage.removeItem("dti_lead_data");
+    sessionStorage.removeItem("dti_reached_booking");
   }, []);
 
 

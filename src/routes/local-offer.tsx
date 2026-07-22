@@ -38,11 +38,29 @@ function LocalOffer() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
+
+    const first_name = form.first_name.trim();
+    const last_name = form.last_name.trim();
+    const email = form.email.trim();
+    const website = form.website.trim();
+    const years_in_business = form.years_in_business.trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    if (!first_name || !last_name || !email || !website || !years_in_business) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+    if (!emailOk) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     setSubmitting(true);
 
-    // Fire Meta Lead event (pixel + CAPI, deduped). Await so CAPI is in flight before nav.
+    sessionStorage.setItem("dti_lead_data", JSON.stringify(form));
+
     await trackEvent({
-      event_name: "Lead",
+      event_name: "CompleteRegistration",
       email: form.email,
       phone: form.phone,
       first_name: form.first_name,
