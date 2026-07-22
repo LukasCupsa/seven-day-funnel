@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { Layout, VideoEmbed, usePixel, trackEvent } from "@/components/Layout";
+import { Layout, VideoEmbed, usePixel } from "@/components/Layout";
 
 // Swap this to your published domain when you go live
 const REDIRECT_URL = "https://apply.dti-media.com/confirm-your-call";
