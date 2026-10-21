@@ -1,13 +1,33 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect } from "react";
-import { Layout, VideoEmbed, usePixel } from "@/components/Layout";
+import { useEffect, useState } from "react";
+import { Layout, VideoEmbed, usePixel, trackEvent } from "@/components/Layout";
+import {
+  loadGhlEmbedScript,
+  parseBookingIdentity,
+  stripBookingIdentity,
+  type BookingIdentity,
+} from "@/lib/ghl";
+import { buildUrlWithParams } from "@/lib/attribution";
 
 // Swap this to your published domain when you go live
 const REDIRECT_URL = "https://apply.dti-media.com/confirm-your-call";
 
 const CALENDLY_URL = `https://calendly.com/lukas-dti-media/1-on-1-call?background_color=0a0a0a&text_color=ffffff&primary_color=c9a84c&redirect_url=${encodeURIComponent(REDIRECT_URL)}`;
 
+// Optional GoHighLevel calendar. When set (Netlify env), it replaces the Calendly embed.
+const GHL_CALENDAR_URL = ((import.meta.env.VITE_GHL_CALENDAR_URL as string | undefined) ?? "").trim();
+
 export const Route = createFileRoute("/book-your-call")({
+  head: () => ({
+    meta: [
+      { title: "Book Your Strategy Call | DTI Media" },
+      { name: "description", content: "Final step: book your private strategy call with DTI Media to complete your application." },
+      { property: "og:title", content: "Book Your Strategy Call | DTI Media" },
+      { property: "og:description", content: "Final step: book your private strategy call with DTI Media to complete your application." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: BookYourCall,
 });
 
@@ -21,8 +41,50 @@ const BULLETS = [
 function BookYourCall() {
   usePixel();
 
+  const [calendarSrc, setCalendarSrc] = useState<string | null>(null);
+
   useEffect(() => {
     sessionStorage.setItem("dti_reached_booking", "1");
+
+    // Identity passed by the GHL form redirect: read it, then strip it from the address bar.
+    const identity = parseBookingIdentity(window.location.search);
+    if (Object.keys(identity).length) {
+      const { pathname, search, hash } = window.location;
+      window.history.replaceState(window.history.state, "", pathname + stripBookingIdentity(search) + hash);
+      // Give the confirm-page Lead event identity data if the landing form didn't already.
+      if (!sessionStorage.getItem("dti_lead_data")) {
+        sessionStorage.setItem("dti_lead_data", JSON.stringify(identity));
+      }
+    }
+
+    // SubmitApplication: once per session.
+    if (!sessionStorage.getItem("dti_submit_application_fired")) {
+      sessionStorage.setItem("dti_submit_application_fired", "1");
+      let lead: BookingIdentity = identity;
+      if (!Object.keys(lead).length) {
+        try {
+          lead = JSON.parse(sessionStorage.getItem("dti_lead_data") || "{}");
+        } catch {
+          lead = {};
+        }
+      }
+      const slug = sessionStorage.getItem("dti_niche_slug");
+      trackEvent({
+        event_name: "SubmitApplication",
+        email: lead.email,
+        phone: lead.phone,
+        first_name: lead.first_name,
+        last_name: lead.last_name,
+        custom_data: slug ? { content_name: slug } : undefined,
+      });
+    }
+
+    if (GHL_CALENDAR_URL) {
+      setCalendarSrc(buildUrlWithParams(GHL_CALENDAR_URL, {}, identity));
+      loadGhlEmbedScript();
+      return;
+    }
+
     const s = document.createElement("script");
     s.src = "https://assets.calendly.com/assets/external/widget.js";
     s.async = true;
@@ -51,17 +113,37 @@ function BookYourCall() {
       </section>
 
       <section className="max-w-4xl mx-auto px-6 pb-12">
-        <div className="rounded-lg overflow-hidden gold-border bg-card">
-          <div
-            className="calendly-inline-widget"
-            data-url={CALENDLY_URL}
-            style={{ minWidth: "320px", height: "700px" }}
-          />
-        </div>
+        {GHL_CALENDAR_URL ? (
+          <div className="relative rounded-lg overflow-hidden gold-border bg-card min-h-[700px]">
+            {calendarSrc ? (
+              <iframe
+                src={calendarSrc}
+                id="dti-ghl-calendar"
+                title="Book your call"
+                scrolling="no"
+                style={{ width: "100%", border: "none", overflow: "hidden", minHeight: 700 }}
+              />
+            ) : (
+              <div className="absolute inset-0 animate-pulse motion-reduce:animate-none bg-muted/40" aria-hidden="true" />
+            )}
+          </div>
+        ) : (
+          <div className="rounded-lg overflow-hidden gold-border bg-card">
+            <div
+              className="calendly-inline-widget"
+              data-url={CALENDLY_URL}
+              style={{ minWidth: "320px", height: "700px" }}
+            />
+          </div>
+        )}
         <div className="mt-8 text-center">
           <Link
             to="/confirm-your-call"
-            className="inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-display font-extrabold uppercase tracking-wide text-lg rounded hover:bg-accent/90 transition"
+            className={
+              GHL_CALENDAR_URL
+                ? "inline-flex min-h-12 items-center justify-center px-6 py-3 border border-accent/60 text-accent font-display font-bold uppercase tracking-wide text-base rounded hover:bg-accent/10 transition"
+                : "inline-flex items-center justify-center px-8 py-4 bg-accent text-black font-display font-extrabold uppercase tracking-wide text-lg rounded hover:bg-accent/90 transition"
+            }
           >
             I've Booked My Call — Continue
           </Link>

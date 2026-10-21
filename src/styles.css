@@ -9,6 +9,7 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
   --color-border: var(--border);
   --color-card: var(--card);
   --color-input: var(--input);
@@ -24,6 +25,7 @@
   --accent-foreground: #0a0a0a;
   --muted: #151515;
   --muted-foreground: #9a9a9a;
+  --secondary-foreground: #e8e4dc;
   --border: #1f1f1f;
   --card: #111111;
   --input: #1a1a1a;
