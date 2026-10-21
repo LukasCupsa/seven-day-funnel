@@ -39,7 +39,7 @@ function uuid() {
 }
 
 type TrackPayload = {
-  event_name: "Lead" | "Schedule" | "CompleteRegistration" | "ViewContent";
+  event_name: "Lead" | "Schedule" | "CompleteRegistration" | "ViewContent" | "SubmitApplication";
   email?: string;
   phone?: string;
   first_name?: string;
