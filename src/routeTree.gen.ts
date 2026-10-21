@@ -9,13 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PaintingContractorsRouteImport } from './routes/painting-contractors'
 import { Route as NotAFitRouteImport } from './routes/not-a-fit'
 import { Route as LocalOfferRouteImport } from './routes/local-offer'
+import { Route as HomeRenovationRouteImport } from './routes/home-renovation'
 import { Route as ConfirmYourCallRouteImport } from './routes/confirm-your-call'
 import { Route as BookYourCallRouteImport } from './routes/book-your-call'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicMetaCapiRouteImport } from './routes/api/public/meta-capi'
 
+const PaintingContractorsRoute = PaintingContractorsRouteImport.update({
+  id: '/painting-contractors',
+  path: '/painting-contractors',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NotAFitRoute = NotAFitRouteImport.update({
   id: '/not-a-fit',
   path: '/not-a-fit',
@@ -24,6 +31,11 @@ const NotAFitRoute = NotAFitRouteImport.update({
 const LocalOfferRoute = LocalOfferRouteImport.update({
   id: '/local-offer',
   path: '/local-offer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HomeRenovationRoute = HomeRenovationRouteImport.update({
+  id: '/home-renovation',
+  path: '/home-renovation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConfirmYourCallRoute = ConfirmYourCallRouteImport.update({
@@ -51,16 +63,20 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book-your-call': typeof BookYourCallRoute
   '/confirm-your-call': typeof ConfirmYourCallRoute
+  '/home-renovation': typeof HomeRenovationRoute
   '/local-offer': typeof LocalOfferRoute
   '/not-a-fit': typeof NotAFitRoute
+  '/painting-contractors': typeof PaintingContractorsRoute
   '/api/public/meta-capi': typeof ApiPublicMetaCapiRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/book-your-call': typeof BookYourCallRoute
   '/confirm-your-call': typeof ConfirmYourCallRoute
+  '/home-renovation': typeof HomeRenovationRoute
   '/local-offer': typeof LocalOfferRoute
   '/not-a-fit': typeof NotAFitRoute
+  '/painting-contractors': typeof PaintingContractorsRoute
   '/api/public/meta-capi': typeof ApiPublicMetaCapiRoute
 }
 export interface FileRoutesById {
@@ -68,8 +84,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/book-your-call': typeof BookYourCallRoute
   '/confirm-your-call': typeof ConfirmYourCallRoute
+  '/home-renovation': typeof HomeRenovationRoute
   '/local-offer': typeof LocalOfferRoute
   '/not-a-fit': typeof NotAFitRoute
+  '/painting-contractors': typeof PaintingContractorsRoute
   '/api/public/meta-capi': typeof ApiPublicMetaCapiRoute
 }
 export interface FileRouteTypes {
@@ -78,24 +96,30 @@ export interface FileRouteTypes {
     | '/'
     | '/book-your-call'
     | '/confirm-your-call'
+    | '/home-renovation'
     | '/local-offer'
     | '/not-a-fit'
+    | '/painting-contractors'
     | '/api/public/meta-capi'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/book-your-call'
     | '/confirm-your-call'
+    | '/home-renovation'
     | '/local-offer'
     | '/not-a-fit'
+    | '/painting-contractors'
     | '/api/public/meta-capi'
   id:
     | '__root__'
     | '/'
     | '/book-your-call'
     | '/confirm-your-call'
+    | '/home-renovation'
     | '/local-offer'
     | '/not-a-fit'
+    | '/painting-contractors'
     | '/api/public/meta-capi'
   fileRoutesById: FileRoutesById
 }
@@ -103,13 +127,22 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookYourCallRoute: typeof BookYourCallRoute
   ConfirmYourCallRoute: typeof ConfirmYourCallRoute
+  HomeRenovationRoute: typeof HomeRenovationRoute
   LocalOfferRoute: typeof LocalOfferRoute
   NotAFitRoute: typeof NotAFitRoute
+  PaintingContractorsRoute: typeof PaintingContractorsRoute
   ApiPublicMetaCapiRoute: typeof ApiPublicMetaCapiRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/painting-contractors': {
+      id: '/painting-contractors'
+      path: '/painting-contractors'
+      fullPath: '/painting-contractors'
+      preLoaderRoute: typeof PaintingContractorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/not-a-fit': {
       id: '/not-a-fit'
       path: '/not-a-fit'
@@ -122,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/local-offer'
       fullPath: '/local-offer'
       preLoaderRoute: typeof LocalOfferRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home-renovation': {
+      id: '/home-renovation'
+      path: '/home-renovation'
+      fullPath: '/home-renovation'
+      preLoaderRoute: typeof HomeRenovationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/confirm-your-call': {
@@ -159,8 +199,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookYourCallRoute: BookYourCallRoute,
   ConfirmYourCallRoute: ConfirmYourCallRoute,
+  HomeRenovationRoute: HomeRenovationRoute,
   LocalOfferRoute: LocalOfferRoute,
   NotAFitRoute: NotAFitRoute,
+  PaintingContractorsRoute: PaintingContractorsRoute,
   ApiPublicMetaCapiRoute: ApiPublicMetaCapiRoute,
 }
 export const routeTree = rootRouteImport
